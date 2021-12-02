@@ -25,12 +25,16 @@ func parseAsInt(t *testing.T, text []byte) []int {
 }
 
 func TestDay1_Part1(t *testing.T) {
-	testInput, err := ioutil.ReadFile("testinput")
-	require.NoError(t, err)
-	assert.Equal(t, 7, CalculateIncreases(parseAsInt(t, testInput)))
+	t.Run("Day1 Test Input should be 7", func(t *testing.T) {
+		testInput, err := ioutil.ReadFile("testinput")
+		require.NoError(t, err)
+		assert.Equal(t, 7, CalculateIncreases(parseAsInt(t, testInput)))
+	})
 
-	input, err := ioutil.ReadFile("input")
-	require.NoError(t, err)
+	t.Run("Day1 Input 1", func(t *testing.T) {
+		input, err := ioutil.ReadFile("input")
+		require.NoError(t, err)
 
-	t.Logf("Day 1 Part 1: %d", CalculateIncreases(parseAsInt(t, input)))
+		t.Logf("Day 1 Part 1: %d", CalculateIncreases(parseAsInt(t, input)))
+	})
 }
