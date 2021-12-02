@@ -2,6 +2,6 @@ test-all:
 	go test -v ./...
 
 test:
-	go test ./$(day)
+	go test -v ./day$(day)
 
 .PHONY: test-all
