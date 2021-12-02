@@ -13,7 +13,8 @@ func TestDay2(t *testing.T) {
 		testInput, err := ioutil.ReadFile("testinput")
 		require.NoError(t, err)
 
-		dirs := parseAsDirs(t, testInput)
+		dirs := make(chan Direction)
+		go parseAsDirs(t, testInput, dirs)
 
 		assert.Equal(t, 150, Depth(dirs))
 	})
@@ -22,7 +23,8 @@ func TestDay2(t *testing.T) {
 		testInput, err := ioutil.ReadFile("input")
 		require.NoError(t, err)
 
-		dirs := parseAsDirs(t, testInput)
+		dirs := make(chan Direction)
+		go parseAsDirs(t, testInput, dirs)
 
 		t.Logf("Day 2 Part 1 Answer: %d", Depth(dirs))
 	})
@@ -31,7 +33,8 @@ func TestDay2(t *testing.T) {
 		testInput, err := ioutil.ReadFile("testinput")
 		require.NoError(t, err)
 
-		dirs := parseAsDirs(t, testInput)
+		dirs := make(chan Direction)
+		go parseAsDirs(t, testInput, dirs)
 
 		assert.Equal(t, 900, Aim(dirs))
 	})
@@ -40,7 +43,8 @@ func TestDay2(t *testing.T) {
 		testInput, err := ioutil.ReadFile("input")
 		require.NoError(t, err)
 
-		dirs := parseAsDirs(t, testInput)
+		dirs := make(chan Direction)
+		go parseAsDirs(t, testInput, dirs)
 
 		t.Logf("Day 2 Part 2 Answer: %d", Aim(dirs))
 	})

@@ -22,8 +22,9 @@ type Direction struct {
 	Number   int
 }
 
-func parseAsDirs(t *testing.T, input []byte) []Direction {
-	dirs := make([]Direction, 0)
+func parseAsDirs(t *testing.T, input []byte, out chan Direction) {
+	defer close(out)
+
 	for _, line := range strings.Split(string(input), "\n") {
 		if line == "" {
 			continue
@@ -33,23 +34,22 @@ func parseAsDirs(t *testing.T, input []byte) []Direction {
 		n, err := strconv.Atoi(info[1])
 		require.NoError(t, err)
 
-		dirs = append(dirs, Direction{
+		out <- Direction{
 			Position: Position(info[0]),
 			Number:   n,
-		})
+		}
 
 	}
-	return dirs
 }
 
-func Aim(dirs []Direction) int {
+func Aim(dirs chan Direction) int {
 	var (
 		forward int
 		aim     int
 		depth   int
 	)
 
-	for _, dir := range dirs {
+	for dir := range dirs {
 		switch dir.Position {
 		case Up:
 			aim -= dir.Number
@@ -66,13 +66,13 @@ func Aim(dirs []Direction) int {
 	return depth * forward
 }
 
-func Depth(dirs []Direction) int {
+func Depth(dirs chan Direction) int {
 	var (
 		depth   int
 		forward int
 	)
 
-	for _, dir := range dirs {
+	for dir := range dirs {
 		switch dir.Position {
 		case Up:
 			depth -= dir.Number
