@@ -6,6 +6,23 @@ import (
 	"strings"
 )
 
+func allAreTrue(i []bool) bool {
+	for _, b := range i {
+		if !b {
+			return false
+		}
+	}
+	return true
+}
+
+func sum(n []int) int {
+	var s int
+	for _, add := range n {
+		s += add
+	}
+	return s
+}
+
 type Board struct {
 	Map    [][]int
 	Marked [][]bool
@@ -16,7 +33,9 @@ func (b *Board) String() string {
 	for i, row := range b.Map {
 		for c, num := range row {
 			if b.Marked[i][c] {
-				r += "*"
+				r += "[*]"
+			} else {
+				r += "[ ]"
 			}
 			r += fmt.Sprintf("%02d ", num)
 		}
@@ -26,26 +45,52 @@ func (b *Board) String() string {
 	return r
 }
 
-func (b *Board) IsWinner() (bool, int) {
-	//for r, row := range b.Marked {
-	//for c, res := range row {
-	//if res == true {
+func (b *Board) sumUnmarked() int {
+	var sum int
 
-	//}
-	//}
-	//}
+	for r, row := range b.Marked {
+		for c, res := range row {
+			if !res {
+				sum += b.Map[r][c]
+			}
+		}
+	}
+	return sum
+}
+
+func (b *Board) columnAsSlice(c int) []bool {
+	var r = make([]bool, 0)
+	for i, _ := range b.Marked {
+		r = append(r, b.Marked[i][c])
+	}
+	return r
+}
+
+func (b *Board) IsWinner() (bool, int) {
+	for _, row := range b.Marked {
+		for c, res := range row {
+			if res == true {
+				col := b.columnAsSlice(c)
+
+				if allAreTrue(row) || allAreTrue(col) {
+					return true, b.sumUnmarked()
+				}
+			}
+		}
+	}
 	return false, 0
 }
 
-func (b *Board) Mark(n int) {
+func (b *Board) Mark(n int) bool {
 	for r, row := range b.Map {
 		for c, num := range row {
 			if num == n {
 				b.Marked[r][c] = true
-				return
+				return true
 			}
 		}
 	}
+	return false
 }
 
 func NewBoard(lines []string) (*Board, error) {
@@ -62,7 +107,7 @@ func NewBoard(lines []string) (*Board, error) {
 		nums := strings.Split(line, " ")
 		row := make([]int, 0)
 		for _, sN := range nums {
-			if "" == strings.TrimSpace(sN) {
+			if strings.TrimSpace(sN) == "" {
 				continue
 			}
 
@@ -74,7 +119,7 @@ func NewBoard(lines []string) (*Board, error) {
 		}
 
 		b.Map = append(b.Map, row)
-		b.Marked = append(b.Marked, make([]bool, len(row)-1))
+		b.Marked = append(b.Marked, make([]bool, len(row)))
 	}
 
 	return b, nil
@@ -88,5 +133,27 @@ func Must(b *Board, e error) *Board {
 }
 
 func Bingo(nums []int, boards []*Board) int {
+	for _, bingoNum := range nums {
+		for i := 0; i <= len(boards)-1; i++ {
+			if marked := boards[i].Mark(bingoNum); marked {
+				if hasWin, rowSum := boards[i].IsWinner(); hasWin {
+					return rowSum * bingoNum
+				}
+			}
+		}
+	}
+	return 0
+}
+
+func BingoLastWinner(nums []int, boards []*Board) int {
+	for _, bingoNum := range nums {
+		for i := 0; i <= len(boards)-1; i++ {
+			if marked := boards[i].Mark(bingoNum); marked {
+				if hasWin, rowSum := boards[i].IsWinner(); hasWin {
+					return rowSum * bingoNum
+				}
+			}
+		}
+	}
 	return 0
 }
