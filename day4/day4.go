@@ -146,14 +146,23 @@ func Bingo(nums []int, boards []*Board) int {
 }
 
 func BingoLastWinner(nums []int, boards []*Board) int {
+	var latestWin int
+
+	var boardWins = make(map[int]bool)
+
 	for _, bingoNum := range nums {
 		for i := 0; i <= len(boards)-1; i++ {
+			if _, ok := boardWins[i]; ok {
+				continue
+			}
 			if marked := boards[i].Mark(bingoNum); marked {
 				if hasWin, rowSum := boards[i].IsWinner(); hasWin {
-					return rowSum * bingoNum
+					boardWins[i] = true
+					latestWin = rowSum * bingoNum
 				}
 			}
 		}
 	}
-	return 0
+
+	return latestWin
 }
