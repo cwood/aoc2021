@@ -39,5 +39,6 @@ func TestDay3(t *testing.T) {
 		c, err := BinaryFilter(input)
 		require.NoError(t, err)
 		t.Logf("Day3 Part 2 Answer: %d", c)
+		assert.Equal(t, int64(4481199), c)
 	})
 }

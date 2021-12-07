@@ -62,8 +62,6 @@ func BinaryFilter(codes []string) (int64, error) {
 
 		if commonNums[0] > commonNums[1] {
 			commonCodes = filterOut(commonCodes, i, 0)
-		} else if commonNums[1] > commonNums[0] {
-			commonCodes = filterOut(commonCodes, i, 1)
 		} else {
 			commonCodes = filterOut(commonCodes, i, 1)
 		}
@@ -77,8 +75,6 @@ func BinaryFilter(codes []string) (int64, error) {
 
 		if commonNums[0] > commonNums[1] {
 			leastCodes = filterOut(leastCodes, i, 1)
-		} else if commonNums[1] > commonNums[0] {
-			leastCodes = filterOut(leastCodes, i, 0)
 		} else {
 			leastCodes = filterOut(leastCodes, i, 0)
 		}
