@@ -1,0 +1,3 @@
+# Advent of Code 2021
+
+This is done in go using go mod simply do a go get to install.
