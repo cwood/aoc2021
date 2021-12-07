@@ -1,7 +1,6 @@
 package day3
 
 import (
-	"log"
 	"strconv"
 	"strings"
 )
@@ -18,16 +17,27 @@ func makeMask(binaryStr string) string {
 	return mask
 }
 
-func filterOut(codes []string, pos int, num int) {
-	for i, code := range codes {
-		if code == "" {
-			continue
-		}
-		csplit := strings.Split(code, "")
+func filterOut(codes []string, pos int, num int) []string {
+	if len(codes) == 1 {
+		return codes
+	}
+
+	var (
+		codesLen = len(codes) - 1
+		i        = 0
+	)
+
+	for i <= codesLen {
+		csplit := strings.Split(codes[i], "")
 		if csplit[pos] != strconv.Itoa(num) {
 			codes = append(codes[:i], codes[i+1:]...)
+			codesLen = len(codes) - 1
+		} else {
+			i++
 		}
 	}
+
+	return codes
 }
 
 func BinaryFilter(codes []string) (int64, error) {
@@ -43,20 +53,35 @@ func BinaryFilter(codes []string) (int64, error) {
 
 	for i := 0; i <= lineLen-1; i++ {
 		commonNums := make(map[int]int, 0)
-		for _, code := range codes {
+
+		for _, code := range commonCodes {
 			if err := commonBin(i, code, commonNums); err != nil {
 				return 0, err
 			}
 		}
 
 		if commonNums[0] > commonNums[1] {
-			filterOut(commonCodes, i, 0)
-			filterOut(leastCodes, i, 1)
+			commonCodes = filterOut(commonCodes, i, 0)
+		} else if commonNums[1] > commonNums[0] {
+			commonCodes = filterOut(commonCodes, i, 1)
 		} else {
-			filterOut(commonCodes, i, 1)
-			filterOut(leastCodes, i, 0)
+			commonCodes = filterOut(commonCodes, i, 1)
 		}
-		log.Printf("common: %v least: %v", commonCodes, leastCodes)
+
+		commonNums = make(map[int]int, 0)
+		for _, code := range leastCodes {
+			if err := commonBin(i, code, commonNums); err != nil {
+				return 0, err
+			}
+		}
+
+		if commonNums[0] > commonNums[1] {
+			leastCodes = filterOut(leastCodes, i, 1)
+		} else if commonNums[1] > commonNums[0] {
+			leastCodes = filterOut(leastCodes, i, 0)
+		} else {
+			leastCodes = filterOut(leastCodes, i, 0)
+		}
 	}
 
 	commonN, err := strconv.ParseInt(commonCodes[0], 2, 64)
