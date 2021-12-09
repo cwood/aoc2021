@@ -32,4 +32,12 @@ func TestDay7(t *testing.T) {
 
 		assert.Equal(t, 168, LeastFuelUsed(input, true))
 	})
+
+	t.Run("Part 2", func(t *testing.T) {
+		input := parse.MustParse(parse.AsInt(
+			file.MustLoad(file.LoadAsStrings("input"))[0],
+		))
+
+		t.Logf("Part 2: %d", LeastFuelUsed(input, true))
+	})
 }

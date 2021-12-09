@@ -10,11 +10,13 @@ func LeastFuelUsed(crabs []int, isConstant bool) int {
 
 	var leastFuelUsed int
 
-	for i := 0; i <= len(crabs)-1; i++ {
+	maxSize := crabs[len(crabs)-1]
+
+	for i := 0; i <= maxSize; i++ {
 
 		var fuelUsed int
 		for j := len(crabs) - 1; j >= 0; j-- {
-			fuelDelta := math.Abs(float64(crabs[i] - crabs[j]))
+			fuelDelta := math.Abs(float64(i - crabs[j]))
 			if !isConstant {
 				fuelUsed += int(fuelDelta)
 			} else {
