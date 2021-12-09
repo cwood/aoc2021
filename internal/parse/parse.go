@@ -5,6 +5,32 @@ import (
 	"strings"
 )
 
+type InOut struct {
+	In  []string
+	Out []string
+}
+
+func trimStringSlice(m []string) []string {
+	var trimmed = make([]string, 0)
+	for _, t := range m {
+		trimmed = append(trimmed, strings.TrimSpace(t))
+	}
+	return trimmed
+}
+
+func AsInOut(m []string) []InOut {
+	inout := make([]InOut, 0)
+	for _, l := range m {
+		split := strings.SplitN(l, "|", 2)
+		i := InOut{
+			In:  trimStringSlice(strings.Split(split[0], " ")),
+			Out: trimStringSlice(strings.Split(split[1], " ")),
+		}
+		inout = append(inout, i)
+	}
+	return inout
+}
+
 func AsMap(m []string) ([][]int, error) {
 	var imap = make([][]int, 0)
 	for _, l := range m {
