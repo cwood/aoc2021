@@ -7,6 +7,12 @@ var positions = [][]int{
 	{0, -1}, // Left
 }
 
+func genChecks(cp []int) [][]int {
+	for _, p := range positions {
+
+	}
+}
+
 func LowpointInMap(points [][]int) int {
 	for r := 0; r <= len(points)-1; r++ {
 		for c := 0; c <= len(points[r])-1; c++ {
