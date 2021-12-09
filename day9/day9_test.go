@@ -20,4 +20,16 @@ func TestDay9(t *testing.T) {
 		points := parse.MustMap(parse.AsMap(input))
 		t.Logf("Part 1: %d", LowpointInMap(points))
 	})
+
+	t.Run("Part 2 Test should be 1134", func(t *testing.T) {
+		input := file.MustLoad(file.LoadAsStrings("testinput"))
+		points := parse.MustMap(parse.AsMap(input))
+		assert.Equal(t, 1134, BasinsInMap(points))
+	})
+
+	t.Run("Part 2", func(t *testing.T) {
+		input := file.MustLoad(file.LoadAsStrings("input"))
+		points := parse.MustMap(parse.AsMap(input))
+		t.Logf("Part 2: %d", BasinsInMap(points))
+	})
 }
