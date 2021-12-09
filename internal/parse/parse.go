@@ -43,7 +43,7 @@ func AsInt(line string) ([]int, error) {
 	return l, nil
 }
 
-func MustParse(i []int, e error) []int {
+func MustAsInt(i []int, e error) []int {
 	if e != nil {
 		panic(e)
 	}

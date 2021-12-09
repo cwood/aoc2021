@@ -12,7 +12,7 @@ import (
 func TestDay4(t *testing.T) {
 	t.Run("Day 4 Part 1 Test Should be 4512", func(t *testing.T) {
 		input := file.MustLoad(file.LoadAsStrings("testinput"))
-		bingoNums := parse.MustParse(parse.AsInt(input[0]))
+		bingoNums := parse.MustAsInt(parse.AsInt(input[0]))
 
 		var boards []*Board
 		var rawBoards = input[1 : len(input)-1]
@@ -28,7 +28,7 @@ func TestDay4(t *testing.T) {
 
 	t.Run("Day 4 Part 1", func(t *testing.T) {
 		input := file.MustLoad(file.LoadAsStrings("input"))
-		bingoNums := parse.MustParse(parse.AsInt(input[0]))
+		bingoNums := parse.MustAsInt(parse.AsInt(input[0]))
 
 		var boards []*Board
 		var rawBoards = input[1 : len(input)-1]
@@ -44,7 +44,7 @@ func TestDay4(t *testing.T) {
 
 	t.Run("Day 4 Part 2 Test Should be 1924", func(t *testing.T) {
 		input := file.MustLoad(file.LoadAsStrings("testinput"))
-		bingoNums := parse.MustParse(parse.AsInt(input[0]))
+		bingoNums := parse.MustAsInt(parse.AsInt(input[0]))
 
 		var boards []*Board
 		var rawBoards = input[1 : len(input)-1]
@@ -60,7 +60,7 @@ func TestDay4(t *testing.T) {
 
 	t.Run("Day 4 Part 2", func(t *testing.T) {
 		input := file.MustLoad(file.LoadAsStrings("input"))
-		bingoNums := parse.MustParse(parse.AsInt(input[0]))
+		bingoNums := parse.MustAsInt(parse.AsInt(input[0]))
 
 		var boards []*Board
 		var rawBoards = input[1 : len(input)-1]

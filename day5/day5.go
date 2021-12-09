@@ -21,6 +21,22 @@ type Line struct {
 	Position Position
 }
 
+func (l *Line) Range() [][]int {
+	xdiff := l.Start[0] - l.End[0]
+	ydiff := l.Start[1] - l.End[0]
+
+	var rng = make([][]int, 0)
+
+	rng = append(rng, l.Start)
+
+	for i := 0; i <= xdiff; i++ {
+
+	}
+
+	rng = append(rng, l.End)
+	return rng
+}
+
 func (l *Line) String() string {
 	return fmt.Sprintf(
 		"%s: %d,%d -> %d,%d",
@@ -54,8 +70,8 @@ func New(line string) *Line {
 	start := pos[0]
 	end := pos[1]
 
-	startPos := parse.MustParse(parse.AsInt(strings.TrimSpace(start)))
-	endPos := parse.MustParse(parse.AsInt(strings.TrimSpace(end)))
+	startPos := parse.MustAsInt(parse.AsInt(strings.TrimSpace(start)))
+	endPos := parse.MustAsInt(parse.AsInt(strings.TrimSpace(end)))
 
 	var p Position
 

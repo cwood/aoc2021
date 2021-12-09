@@ -10,7 +10,7 @@ import (
 
 func TestDay7(t *testing.T) {
 	t.Run("Part 1 Test should be 37", func(t *testing.T) {
-		input := parse.MustParse(parse.AsInt(
+		input := parse.MustAsInt(parse.AsInt(
 			file.MustLoad(file.LoadAsStrings("testinput"))[0],
 		))
 
@@ -18,7 +18,7 @@ func TestDay7(t *testing.T) {
 	})
 
 	t.Run("Part 1", func(t *testing.T) {
-		input := parse.MustParse(parse.AsInt(
+		input := parse.MustAsInt(parse.AsInt(
 			file.MustLoad(file.LoadAsStrings("input"))[0],
 		))
 
@@ -26,7 +26,7 @@ func TestDay7(t *testing.T) {
 	})
 
 	t.Run("Part 2 Test should be 168", func(t *testing.T) {
-		input := parse.MustParse(parse.AsInt(
+		input := parse.MustAsInt(parse.AsInt(
 			file.MustLoad(file.LoadAsStrings("testinput"))[0],
 		))
 
@@ -34,7 +34,7 @@ func TestDay7(t *testing.T) {
 	})
 
 	t.Run("Part 2", func(t *testing.T) {
-		input := parse.MustParse(parse.AsInt(
+		input := parse.MustAsInt(parse.AsInt(
 			file.MustLoad(file.LoadAsStrings("input"))[0],
 		))
 
