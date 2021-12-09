@@ -1,0 +1,37 @@
+package day7
+
+import (
+	"math"
+	"sort"
+)
+
+func LeastFuelUsed(crabs []int, isConstant bool) int {
+	sort.Ints(crabs)
+
+	var leastFuelUsed int
+
+	for i := 0; i <= len(crabs)-1; i++ {
+
+		var fuelUsed int
+		for j := len(crabs) - 1; j >= 0; j-- {
+			fuelDelta := math.Abs(float64(crabs[i] - crabs[j]))
+			if !isConstant {
+				fuelUsed += int(fuelDelta)
+			} else {
+				for f := 0; f <= int(fuelDelta); f++ {
+					fuelUsed += f
+				}
+			}
+		}
+
+		if leastFuelUsed == 0 {
+			leastFuelUsed = fuelUsed
+		}
+
+		if fuelUsed < leastFuelUsed {
+			leastFuelUsed = fuelUsed
+		}
+	}
+
+	return leastFuelUsed
+}
