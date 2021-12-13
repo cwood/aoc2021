@@ -60,3 +60,21 @@ func OctopusFlashesPerTurn(octopi [][]int, turns int) int {
 
 	return flashes
 }
+
+func OctopusFlashesAll(octopi [][]int) int {
+
+	var (
+		turn = 1
+		f    = 0
+	)
+
+	glen := grid.Len(octopi)
+
+	for {
+		octopi, f = genOctopi(octopi)
+		if f == glen {
+			return turn
+		}
+		turn++
+	}
+}

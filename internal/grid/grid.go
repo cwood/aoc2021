@@ -70,6 +70,10 @@ func (i *IntSet) Count() int {
 	return len(i.i)
 }
 
+func Len(g [][]int) int {
+	return len(g) * len(g[0])
+}
+
 func NewIntSet() *IntSet {
 	return &IntSet{i: make(map[string]bool)}
 }
