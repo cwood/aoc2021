@@ -48,3 +48,28 @@ func Printf(g [][]int, msg string, args ...interface{}) {
 	}
 	log.Printf("%s %s\n", fmt.Sprintf(msg, args...), m)
 }
+
+type IntSet struct {
+	i map[string]bool
+}
+
+func (i *IntSet) Add(p []int) {
+	key := fmt.Sprintf("%d.%d", p[0], p[1])
+	if _, ok := i.i[key]; !ok {
+		i.i[key] = true
+	}
+}
+
+func (i *IntSet) Contains(p []int) bool {
+	key := fmt.Sprintf("%d.%d", p[0], p[1])
+	_, ok := i.i[key]
+	return ok
+}
+
+func (i *IntSet) Count() int {
+	return len(i.i)
+}
+
+func NewIntSet() *IntSet {
+	return &IntSet{i: make(map[string]bool)}
+}
