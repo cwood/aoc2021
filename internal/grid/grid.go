@@ -16,7 +16,14 @@ var positions = [][]int{
 	{-1, -1}, // Left and up
 }
 
-func GenPositionsAll(cp []int, maxRow, maxCol int) [][]int {
+var direct = [][]int{
+	{-1, 0}, // Up
+	{0, 1},  // Right
+	{1, 0},  // Down
+	{0, -1}, // Left
+}
+
+func genPositions(positions [][]int, cp []int, mr, mc int) [][]int {
 	var poss = make([][]int, 0)
 
 	for _, p := range positions {
@@ -27,7 +34,7 @@ func GenPositionsAll(cp []int, maxRow, maxCol int) [][]int {
 
 		if gened[0] < 0 || gened[1] < 0 {
 			continue
-		} else if gened[0] > maxRow || gened[1] > maxCol {
+		} else if gened[0] > mr || gened[1] > mc {
 			continue
 		}
 
@@ -35,7 +42,14 @@ func GenPositionsAll(cp []int, maxRow, maxCol int) [][]int {
 	}
 
 	return poss
+}
 
+func GenPositionDirect(cp []int, maxRow, maxCol int) [][]int {
+	return genPositions(direct, cp, maxRow, maxCol)
+}
+
+func GenPositionsAll(cp []int, maxRow, maxCol int) [][]int {
+	return genPositions(positions, cp, maxRow, maxCol)
 }
 
 func Printf(g [][]int, msg string, args ...interface{}) {
