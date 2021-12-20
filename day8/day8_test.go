@@ -22,4 +22,11 @@ func TestDay8(t *testing.T) {
 
 		t.Logf("Part 1: %d", CountUniqueOutput(inout))
 	})
+
+	t.Run("Part 2 Test should be 61229", func(t *testing.T) {
+		input := file.MustLoad(file.LoadAsStrings("testinput"))
+		inout := parse.AsInOut(input)
+
+		assert.Equal(t, 61229, CountUniqueOutput(inout))
+	})
 }

@@ -31,6 +31,17 @@ func AsInOut(m []string) []InOut {
 	return inout
 }
 
+func AsPointerMap(m []string) map[string]string {
+	var pmap = make(map[string]string)
+
+	for _, l := range m {
+		prts := strings.SplitN(l, "->", 2)
+		pmap[strings.TrimSpace(prts[0])] = strings.TrimSpace(prts[1])
+	}
+
+	return pmap
+}
+
 func AsMap(m []string) ([][]int, error) {
 	var imap = make([][]int, 0)
 	for _, l := range m {
