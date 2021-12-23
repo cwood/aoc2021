@@ -16,28 +16,40 @@ var (
 	noCorrupts = ""
 )
 
+func pop(s []string) (string, []string) {
+	l := s[len(s)-1]
+	return l, s[:len(s)-1]
+}
+
 func isLineCorrupt(l string) (bool, string) {
-	var toFind string
 	var tokens = strings.Split(l, "")
 
-tokenScan:
-	for tp, t := range tokens {
-		switch t {
-		case "(":
-			toFind = ")"
-		case "[":
-			toFind = "]"
-		case "<":
-			toFind = ">"
-		case "{":
-			toFind = "}"
-		}
+	var openers = make([]string, 0)
 
-		for i := len(tokens) - 1; i >= tp; i-- {
-			nt := tokens[i]
-			if nt == toFind {
-				continue tokenScan
+	for _, t := range tokens {
+		switch t {
+		case ")":
+			l, openers = pop(openers)
+			if l != "(" {
+				return true, "("
 			}
+		case "]":
+			l, openers = pop(openers)
+			if l != "[" {
+				return true, "["
+			}
+		case ">":
+			l, openers = pop(openers)
+			if l != "<" {
+				return true, "<"
+			}
+		case "}":
+			l, openers = pop(openers)
+			if l != "{" {
+				return true, "{"
+			}
+		default:
+			openers = append(openers, t)
 		}
 	}
 	return false, noCorrupts
@@ -59,18 +71,18 @@ func SyntaxScoringCorrupt(lines []string) int {
 	var score int
 	for p, n := range missingParts {
 		switch p {
-		case ")":
+		case "(":
 			score += n * ParenScore
-		case "]":
+		case "[":
 			score += n * BlockScore
-		case "}":
+		case "{":
 			score += n * CurvyScore
-		case ">":
+		case "<":
 			score += n * SignScore
 		default:
 			panic(fmt.Sprintf("unknown sign: %s", p))
 		}
 	}
 
-	return 0
+	return score
 }
