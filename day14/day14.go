@@ -4,58 +4,68 @@ import (
 	"strings"
 )
 
-func insertI(arr []string, index int, v string) []string {
-	if len(arr) == index {
-		return append(arr, v)
-	}
-	arr = append(arr[:index+1], arr[index:]...)
-	arr[index] = v
-	return arr
-
-}
-
-func polymoreStepGen(initial string, rules map[string]string, n int) []string {
+func polymoreStepGen(initial string, rules map[string]string, n int) map[string]int {
 	str := strings.Split(initial, "")
 
-step:
-	for i := 0; i <= n-1; i++ {
+	var counts = make(map[string]int)
 
-		nstr := make([]string, 0)
-
-		var currC int = 0
-		for {
-			if currC+1 == len(str) {
-				nstr = append(nstr, str[currC])
-				str = nstr
-				continue step
-			}
-
-			r := str[currC] + str[currC+1]
-			if newC, ok := rules[r]; ok {
-				nstr = append(nstr, str[currC], newC)
-				if currC+1 == len(str) {
-					nstr = append(nstr, str[currC+1])
-				}
-			}
-			currC++
+	for j := 0; j < len(str); j += 1 {
+		var pair string
+		if j+1 == len(str) {
+			continue
+		} else {
+			pair = str[j] + str[j+1]
 		}
+		_, ok := counts[pair]
+		if !ok {
+			counts[pair] = 0
+		}
+		counts[pair]++
 	}
 
-	return str
+	for i := 0; i <= n-1; i++ {
+
+		ncounts := make(map[string]int)
+
+		for r, v := range counts {
+			newC, ok := rules[r]
+			if !ok {
+				continue
+			}
+			str := strings.Split(r, "")
+			key := str[0] + newC
+			okey := newC + str[1]
+
+			_, ok = ncounts[key]
+			if !ok {
+				ncounts[key] = 0
+			}
+			_, ok = ncounts[okey]
+			if !ok {
+				ncounts[okey] = 0
+			}
+			ncounts[key] += v
+			ncounts[okey] += v
+		}
+		counts = ncounts
+	}
+
+	return counts
 }
 
 func PolymoreMostLeastCommon(initial string, rules map[string]string, n int) int {
-	tstr := polymoreStepGen(initial, rules, n)
+	polyGen := polymoreStepGen(initial, rules, n)
 
-	var counts = make(map[string]int, 0)
+	var counts = make(map[string]int)
 
-	for _, s := range tstr {
-		_, ok := counts[s]
-		if !ok {
-			counts[s] = 0
-		}
-		counts[s]++
+	for k, v := range polyGen {
+		fk := string(k[0])
+		counts[fk] += v
 	}
+
+	str := strings.Split(initial, "")
+
+	counts[str[len(str)-1]]++
 
 	var mostCommon, leastCommon = 0, 0
 

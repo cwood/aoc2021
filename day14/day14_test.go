@@ -29,5 +29,11 @@ func TestDay14(t *testing.T) {
 
 		assert.Equal(t, 2188189693529, PolymoreMostLeastCommon(input[0], rules, 40))
 	})
+	t.Run("Day 14 Part 2", func(t *testing.T) {
+		input := file.MustLoad(file.LoadAsStrings("input"))
+		rules := parse.AsPointerMap(input[1:])
+
+		t.Logf("Part 2: %d", PolymoreMostLeastCommon(input[0], rules, 40))
+	})
 
 }
