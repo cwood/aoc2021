@@ -40,4 +40,14 @@ func TestDay10(t *testing.T) {
 		lines := file.MustLoad(file.LoadAsStrings("input"))
 		t.Logf("Part 1: %d", SyntaxScoringCorrupt(lines))
 	})
+
+	t.Run("Part 2 Test should be 288957", func(t *testing.T) {
+		lines := file.MustLoad(file.LoadAsStrings("testinput"))
+		assert.Equal(t, 288957, SyntaxScoringComplete(lines))
+	})
+
+	t.Run("Part 2", func(t *testing.T) {
+		lines := file.MustLoad(file.LoadAsStrings("input"))
+		t.Logf("Part 2: %d", SyntaxScoringComplete(lines))
+	})
 }

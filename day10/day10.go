@@ -2,6 +2,7 @@ package day10
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 )
 
@@ -52,7 +53,44 @@ func isLineCorrupt(l string) (bool, string) {
 			openers = append(openers, t)
 		}
 	}
-	return false, noCorrupts
+
+	return false, strings.Join(openers, "")
+}
+
+func SyntaxScoringComplete(lines []string) int {
+
+	var linePoints = make([]int, 0)
+
+	for _, l := range lines {
+		isCorrupt, c := isLineCorrupt(l)
+		if isCorrupt {
+			continue
+		}
+
+		var points = 0
+
+		cs := strings.Split(c, "")
+		for i := len(cs) - 1; i >= 0; i-- {
+			points = points * 5
+			ch := cs[i]
+			switch ch {
+			case "[":
+				points += 2
+			case "(":
+				points += 1
+			case "{":
+				points += 3
+			case "<":
+				points += 4
+			}
+		}
+		linePoints = append(linePoints, points)
+	}
+
+	sort.Ints(linePoints)
+
+	return linePoints[int(len(linePoints)/2)]
+
 }
 
 func SyntaxScoringCorrupt(lines []string) int {
